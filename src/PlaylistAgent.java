@@ -1,26 +1,26 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlaylistAgent {
-
-	private int CurrentPlayTime,
-				MaxPlayTime;
 	
 	private List<GamePath> gameList = new ArrayList<GamePath>();
 	
-	public PlaylistAgent(int currTime, int maxTime)
+	public PlaylistAgent()
 	{
-		CurrentPlayTime = currTime;
-		MaxPlayTime = maxTime;
 	}
 	
 	public void addGameToList(String path, String name) { gameList.add(new GamePath(path, name)); }
-	public void setMaxPlayTime(int i) { MaxPlayTime = i; }
-	public void setCurrentPlayTime(int i) { CurrentPlayTime = i; }
 	
 	public List<GamePath> getGameList() { return gameList; }
-	public int getMaxPlayTime() { return MaxPlayTime; }
-	public int getCurrentPlayTime() { return CurrentPlayTime; }
+	public void shiftIndexUp(int index)
+	{
+		Collections.swap(gameList, index, index-1);
+	}
+	public void shiftIndexDown(int index)
+	{
+		Collections.swap(gameList, index, index+1);
+	}
 	public String[] getGameTitles() {
 		String[] rnt = new String[gameList.size()];
 		for (int k = 0; k != gameList.size(); k++)

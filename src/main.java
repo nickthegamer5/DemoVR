@@ -1,19 +1,19 @@
  
 public class Main {
 	
-	private static PlaylistAgent playlistAgent;
+	private static PlaylistAgent gameDatabase;
+	private static PlaylistAgent currentGamePlaylist;
 
 	public static void main(String[] args) {
-		
-		int currentPlayTime = 0,
-				maxPlayTime = 0;
 
-		playlistAgent = new PlaylistAgent(currentPlayTime, maxPlayTime);
-		playlistAgent.addGameToList("C:/gay", "Beat Saber");
-		playlistAgent.addGameToList("C:/gay", "Asgards Wrath");
-		playlistAgent.addGameToList("C:/gay", "Tilt Brush");
+		gameDatabase = new PlaylistAgent();
+		gameDatabase.addGameToList("C:/gay", "Beat Saber");
+		gameDatabase.addGameToList("C:/gay", "Asgards Wrath");
+		gameDatabase.addGameToList("C:/gay", "Tilt Brush");
 		
-		MainPanel mainPanel = new MainPanel(playlistAgent);
+		currentGamePlaylist = new PlaylistAgent();
+		
+		MainPanel mainPanel = new MainPanel(gameDatabase, currentGamePlaylist);
 		mainPanel.setVisible(true);
 	}
 

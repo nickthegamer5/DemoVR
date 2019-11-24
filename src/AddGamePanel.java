@@ -1,23 +1,27 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AddGamePanel extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldGamePath;
 	private JTextField textFieldGameName;
 	
 	public Boolean isValidExit = false;
-	public GamePath gamePath;
+	public GamePath gamePathFinal;
 
 	/**
 	 * Create the frame.
@@ -42,6 +46,20 @@ public class AddGamePanel extends JFrame {
 		textFieldGamePath.setColumns(10);
 		
 		JButton button = new JButton("...");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser("C:\\Program Files (x86)\\Steam\\steamapps\\common");
+				fc.setDialogTitle("Select Game Executable");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		                "Executable & Batch", "exe", "bat", "cmd");
+				fc.setFileFilter(filter);
+				
+				int rnt = fc.showOpenDialog(null);
+		        if(rnt == JFileChooser.APPROVE_OPTION) {
+		            textFieldGamePath.setText(fc.getSelectedFile().getPath());
+		        }
+			}
+		});
 		button.setBounds(302, 7, 23, 23);
 		contentPane.add(button);
 		
@@ -57,14 +75,22 @@ public class AddGamePanel extends JFrame {
 		JButton btnAddGame = new JButton("Add Game");
 		btnAddGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (lblGameName.getText().length() != 0 && lblGameName.getText().length() != 0)
-				{
-					isValidExit = true;
-					gamePath = new GamePath(lblGamePath.getText(), lblGameName.getText());
-				}
+				if (addGame(textFieldGamePath.getText(), textFieldGameName.getText()))
+					setVisible(false);
 			}
 		});
 		btnAddGame.setBounds(10, 62, 315, 23);
 		contentPane.add(btnAddGame);
+	}
+	
+	public boolean addGame(String gamePath, String gameName)
+	{
+		if (gamePath.length() != 0 && gameName.length() != 0)
+		{
+			isValidExit = true;
+			gamePathFinal = new GamePath(gamePath, gameName);
+			return true;
+		}
+		return false;
 	}
 }
